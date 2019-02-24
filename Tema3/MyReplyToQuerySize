@@ -1,0 +1,23 @@
+package com.bogdandirtu.Curs4;
+
+
+import java.io.IOException;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+
+
+@SuppressWarnings("restriction")
+public class MyReplyToQuerySize implements HttpHandler {
+
+	public void handle(HttpExchange t) throws IOException 
+	{
+		String response;
+		if (t.getRequestURI().getQuery().toString()!=null && t.getRequestURI().getQuery().toString().length()>5)
+		{
+		response = "Your account is ready! "+ t.getRequestURI().getQuery().toString()+ " " + t.getProtocol() + " " + t.getRequestMethod();
+		}else response = "The size of your typed query: " + t.getRequestURI().getQuery().toString().length();
+		
+		
+		BApp.MakeRequest(t, response);
+	}
+}
