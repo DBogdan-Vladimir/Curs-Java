@@ -1,0 +1,22 @@
+package com.bogdandirtu.Curs4;
+
+import java.io.IOException;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+
+
+@SuppressWarnings("restriction")
+public class MyArrayHandler implements HttpHandler 
+{
+	public void handle(HttpExchange t) throws IOException
+	{
+		
+		String url = t.getRequestURI().getQuery().toString();
+		String urlVal[] = url.split("&");
+		
+		String response = urlVal[3];
+				
+		BApp.MakeRequest(t, response);
+	}
+	
+}
