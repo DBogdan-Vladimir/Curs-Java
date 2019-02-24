@@ -1,0 +1,30 @@
+package com.bogdandirtu.Curs4;
+
+import java.io.IOException;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+
+@SuppressWarnings("restriction")
+public class MyInsertUrlEmployeeHandler implements HttpHandler {
+
+	public void handle(HttpExchange t) throws IOException 
+	{
+		try {
+			String url = t.getRequestURI().getQuery().toString();
+			String urlVal[] = url.split("&");
+			int id = Integer.parseInt(urlVal[0]);
+			String name = urlVal[1];
+			int password = Integer.parseInt(urlVal[2]);
+			
+			//String myString = "1234";
+			//int foo = Integer.parseInt(myString);
+			
+			DBConnection.InsertUser(id,name,password,"employees");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+				
+	}
+
+}
