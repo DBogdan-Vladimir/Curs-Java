@@ -1,0 +1,43 @@
+package com.bogdandirtu.Curs4;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpServer;
+
+@SuppressWarnings("restriction")
+public class BApp {
+
+	public static void main(String[] args) throws IOException {
+				
+		
+		HttpServer server = HttpServer.create(new InetSocketAddress(8001),0);
+		DBConnection.init();
+		
+		server.createContext("/", new MyStringHandler());
+		server.createContext("/html", new MyHtmlHandler());
+		server.createContext("/QuerySize", new MyReplyToQuerySize());
+		server.createContext("/Password", new MyPassHandler());
+		server.createContext("/ArrayQuery", new MyArrayHandler());
+		
+		server.createContext("/Employees", new MyEmployeesHandler());
+		server.createContext("/InsertEmployee", new MyInsertEmployeeHandler());
+		server.createContext("/DeleteEmployee", new MyDeleteEmployeeHandler());
+		server.createContext("/UpdateEmployeeInfo", new MyUpdateEmployeeInfoHandler());
+		server.createContext("/InsertUrlEmployee", new MyInsertUrlEmployeeHandler());
+		
+		server.setExecutor(null);
+		server.start();
+		System.out.println("Server started on port 8001!");
+		
+				
+	}
+	public static void MakeRequest(HttpExchange t, String response) throws IOException  {
+		t.sendResponseHeaders(200, response.length());
+		OutputStream os = t.getResponseBody();
+		os.write(response.getBytes());
+		os.close();}
+
+}
