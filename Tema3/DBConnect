@@ -1,0 +1,76 @@
+package com.bogdandirtu.Curs4;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+public class DBConnection {
+	private static Connection connect = null;
+	private static Statement statement = null;
+	private static PreparedStatement preparedStatement = null;
+	private static ResultSet resultSet = null;
+	
+	@SuppressWarnings("unused")
+	public DBConnection() {
+		try
+		{
+			Class.forName("org.sqlite.JDBC");
+			connect = DriverManager.getConnection("jdbc:sqlite:C:/Users/bdirtu/Desktop/javaappdb.db");
+			
+		} catch(Exception e) {					
+			e.printStackTrace();
+		} 
+	
+	}
+	
+	public static void init () {
+		try
+		{
+			Class.forName("org.sqlite.JDBC");
+			connect = DriverManager.getConnection("jdbc:sqlite:C:/Users/bdirtu/Desktop/javaappdb.db");
+			System.out.println("Connected Succesfully!");
+		} catch(Exception e) {					
+			e.printStackTrace();
+		} 
+		/*try {
+			statement = connect.createStatement();
+			statement.executeUpdate("insert into alfa values(1,'Costel'),(2,'Maria');");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
+		
+	}
+	
+	@SuppressWarnings("unused")
+	public static void selectTable(String dbTable) throws Exception {
+		statement = connect.createStatement();
+		resultSet = statement.executeQuery("select * from "+ dbTable);
+		while(resultSet.next()) {
+		int id = resultSet.getInt("id");
+		String user = resultSet.getString("name");
+		System.out.println("Id: " + id + ", Username: "+user);
+		}
+	}
+	public static void InsertUser(int id, String name,int password, String dbTable) throws SQLException {
+		preparedStatement = connect.prepareStatement("insert into "+dbTable+" values (?,?,?);");
+		preparedStatement.setInt(1,id);
+		preparedStatement.setString(2,name);
+		preparedStatement.setInt(3, password);
+		preparedStatement.executeUpdate();
+	}
+	public static void deleteUser(String dbTable, int id) throws SQLException {
+		preparedStatement = connect.prepareStatement("delete from "+dbTable+" where id= ?;");
+		preparedStatement.setInt(1, id);
+		preparedStatement.executeUpdate();
+	}
+	public static void updateUser(int id,int password, String dbTable) throws SQLException {
+		preparedStatement = connect.prepareStatement("update "+dbTable+" set password =? where id=?;");
+		preparedStatement.setInt(1,  password);
+		preparedStatement.setInt(2,  id);
+		preparedStatement.executeUpdate();
+	}
+	
+}
