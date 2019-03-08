@@ -73,14 +73,14 @@ public class HomeController {
 			model.addAttribute("f1", f1);
 			model.addAttribute("operation", operation);
 			model.addAttribute("f2", f2);
-			int result1 = Integer.parseInt(f1)+Integer.parseInt(f2);
+			int result1 = Integer.parseInt(f1)+Integer.parseInt(f2); 
 			int result2 = Integer.parseInt(f1)-Integer.parseInt(f2);
 			int result3 = Integer.parseInt(f1)*Integer.parseInt(f2);
 			int result4 = Integer.parseInt(f1)/Integer.parseInt(f2);
-			if (operation == "+") model.addAttribute("result",result1);
-			if (operation == "-") model.addAttribute("result",result2);
-			if (operation == "*") model.addAttribute("result",result3);
-			if (operation == "/") model.addAttribute("result",result4);
+			if (operation.equals("+")) {model.addAttribute("result",result1);}
+			if (operation.equals("-")) {model.addAttribute("result",result2);}
+			if (operation.equals("*")) {model.addAttribute("result",result3);}
+			if (operation.equals("/")) {model.addAttribute("result",result4);}
 			return "calculator";
 			
 	}
